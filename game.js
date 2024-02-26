@@ -1,5 +1,6 @@
 var config = {
     type: Phaser.AUTO,
+    parent: 'game',
     width: 1820,
     height: 950,
     physics: {
@@ -45,9 +46,10 @@ function create ()
         player = this.physics.add.sprite(100, 450, 'dude')
 
         this.cameras.main.startFollow(player, true);
+        //scoreText.startFollow(player, [false], [0], [0], [-300], [200])
         // this.cameras.main.startFollow(this.ship, true, 0.09, 0.09);
 
-        this.cameras.main.setZoom(1);
+        this.cameras.main.setZoom(1.5);
 
     platforms = this.physics.add.staticGroup();
     
@@ -119,6 +121,7 @@ this.physics.add.collider(player, bombs, hitBomb, null, this);
 
     score += 10;
     scoreText.setText('Score: ' + score);
+    document.getElementById('score').innerText = score;
     
     var x = (player.x < 400) ? Phaser.Math.Between(400, 1820) : Phaser.Math.Between(0, 1820);
     var bomb = bombs.create(x, 16, 'bomb')

@@ -1,7 +1,26 @@
 body {
+    position: absolute;
     margin: 0;
     height: 100vh;           
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#score{
+    position: fixed;
+    top: 10px;
+    left:10px;
+    font-size: 36px;
+    font-weight: 700;
+    background-color: transparent;
+}
+
+#text{
+    position: fixed;
+    top: 10px;
+    left:10px;
+    font-size: 36px;
+    font-weight: 700;
+    background-color: transparent;
 }
