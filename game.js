@@ -22,7 +22,7 @@ var game = new Phaser.Game(config);
 var platforms;
 function preload ()
 {
-    this.load.image('sky', 'assets/sky.avif');
+    this.load.image('sky', 'assets/nebo.jpg');
     this.load.image('ground', 'assets/platform.png');
     this.load.image('star', 'assets/star.png');
     this.load.image('bomb', 'assets/bomb.png');
@@ -34,9 +34,10 @@ function preload ()
 
 function create ()
 {
-    this.add.image(950, 500, 'sky');
+    //this.add.image(950, 500, 'sky');
+    this.tilesprite = this.add.tileSprite(950, 500, 1920, 1080, 'sky');
     this.cameras.main.setBounds(0, 0, 1820, 950);
-
+    
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -54,13 +55,16 @@ function create ()
     platforms = this.physics.add.staticGroup();
     
 
-    platforms.create(1000, 1000, 'ground').setScale(5).refreshBody();
+    //platforms.create(1000, 1000, 'ground').setScale(5).refreshBody();
 
     platforms.create(800, 800, 'ground');//
     platforms.create(400, 650, 'ground'); //
     platforms.create(750, 500, 'ground');
     platforms.create(1450, 600, 'ground');
-;
+    for(var x=0; x<1920; x=x+400){
+        console.log(x)
+        platforms.create(x, 920, 'ground').setOrigin(0,0).refreshBody();
+     }
 
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
