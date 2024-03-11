@@ -65,21 +65,20 @@ function create() {
 
 
 
-    platforms.create(1000, 1000, 'ground').setScale(5).refreshBody();
 
     platforms.create(800, 800, 'ground');//
     platforms.create(400, 650, 'ground'); //
     platforms.create(750, 500, 'ground');
-    //platforms.create(1450, 600, 'ground');
-for(var x = 0; x < 9600; x = x + phaser.math.Between(400, 500)){
-    var y = Phaser.math.FloatBetween(186, 93 * 7)
-    platforms.create(x,y, 'platform1');
-    var i;
-    for (i= 1; i < phaser.math.between(0,5); i++){
-       platforms.create(x + 128 * i, y, 'platform2');
-    }
-    platforms.create(x + 128 * i, y, "platform3");
-}
+    platforms.create(1450, 600, 'ground');
+    //for(var x = 0; x < 9600; x = x + phaser.math.Between(400, 500)){
+    //    var y = Phaser.math.FloatBetween(186, 93 * 7);
+    //    platforms.create(x,y, 'platform1');
+    //    var i;
+    //    for (i= 1; i < phaser.math.between(0,5); i++){
+    //        platforms.create(x + 128 * i, y, 'platform2');
+    //        }
+    //        platforms.create(x + 128 * i, y, "platform3");
+    //}
 
     for (var x = 0; x < 9600; x = x + 400) {
         console.log(x)
