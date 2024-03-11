@@ -21,12 +21,16 @@ var scoreText;
 var game = new Phaser.Game(config);
 var platforms;
 var assets;
+var worldWidth = config.width * 2;
 function preload() {
     this.load.image('sky', 'assets/nebo.jpg');
     this.load.image('ground', 'assets/platform.png');
     this.load.image('star', 'assets/star.png');
     this.load.image('bomb', 'assets/bomb.png');
     this.load.image('sign', 'assets/Sign_2.png');
+    this.load.image('platform1', 'assets/1.png');
+    this.load.image('platform2', 'assets/2.png');
+    this.load.image('platform3', 'assets/3.png');
 
     this.load.image('snowman', 'assets/SnowMan.png');
     this.load.spritesheet('dude',
@@ -46,7 +50,9 @@ function create() {
     this.mode = 1; // 0 = direct, 1 = physics
     this.directSpeed = 4.5;
 
-    player = this.physics.add.sprite(100, 450, 'dude')
+    player = this.physics.add.sprite(100, 450, 'dude').setDepth(5);
+    //player.setVelocity(20, 10);
+    //player.setMaxSpeed(1000);
 
     this.cameras.main.startFollow(player, true);
     //scoreText.startFollow(player, [false], [0], [0], [-300], [200])
@@ -61,10 +67,20 @@ function create() {
 
     //platforms.create(1000, 1000, 'ground').setScale(5).refreshBody();
 
-    platforms.create(800, 800, 'ground');//
-    platforms.create(400, 650, 'ground'); //
-    platforms.create(750, 500, 'ground');
-    platforms.create(1450, 600, 'ground');
+    //platforms.create(800, 800, 'ground');//
+    //platforms.create(400, 650, 'ground'); //
+    //platforms.create(750, 500, 'ground');
+    //platforms.create(1450, 600, 'ground');
+//for(var x = 0; x < 9600; x = x + phaser.math.Between(400, 500)){
+ //   var y = Phaser.math.FloatBetween(186, 93 * 7)
+   // platforms.create(x,y, 'platform1');
+    //var i;
+    //for (i= 1; i < phaser.math.between(0,5); i++){
+     //   platforms.create(x + 128 * i, y, 'platform2');
+    //}
+    //platforms.create(x + 128 * i, y, "platform3");
+//}
+
     for (var x = 0; x < 9600; x = x + 400) {
         console.log(x)
         platforms.create(x, 920, 'ground').setOrigin(0, 0).refreshBody();
@@ -73,12 +89,12 @@ function create() {
     //
     for (var x = 0; x < 9600; x = x + 400) {
         console.log("snow x: " + x)
-        snowman = this.physics.add.sprite(x, 920, 'snowman').setOrigin(0, 1).refreshBody().setScale(0.5, 0.5);
+        snowman = this.physics.add.sprite(x, 920, 'snowman').setOrigin(0, 1).refreshBody().setScale(0.5, 0.5).setDepth(Phaser.Math.Between(1, 10));
         this.physics.add.collider(snowman, platforms);
     }
     for (var x = 200; x < 9600; x = x + 800) {
         console.log("snow x: " + x)
-        sign = this.physics.add.sprite(x, 920, 'sign').setOrigin(0, 1).refreshBody().setScale(0.5, 0.5);
+        sign = this.physics.add.sprite(x, 920, 'sign').setOrigin(0, 1).refreshBody().setScale(0.5, 0.5).setDepth(Phaser.Math.Between(1, 10));
         this.physics.add.collider(sign, platforms);
     }
 
@@ -174,12 +190,12 @@ function create() {
 
 function update() {
     if (cursors.left.isDown) {
-        player.setVelocityX(-160);
+        player.setVelocityX(-320);
 
         player.anims.play('left', true);
     }
     else if (cursors.right.isDown) {
-        player.setVelocityX(160);
+        player.setVelocityX(320);
 
         player.anims.play('right', true);
     }
