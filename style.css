@@ -24,3 +24,21 @@ body {
     font-weight: 700;
     background-color: transparent;
 }
+
+#ltext{
+    position: fixed;
+    top: 100px;
+    left:10px;
+    font-size: 36px;
+    font-weight: 700;
+    background-color: transparent;
+}
+
+#lives{
+    position: fixed;
+    top: 100px;
+    left:10px;
+    font-size: 36px;
+    font-weight: 700;
+    background-color: transparent;
+}

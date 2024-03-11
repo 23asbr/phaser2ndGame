@@ -7,7 +7,7 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 300 },
-            debug: false
+            debug: true
         }
     },
     scene: {
@@ -133,6 +133,8 @@ function create() {
         child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
 
     });
+
+    var lives;
     bombs = this.physics.add.group();
 
     this.physics.add.collider(bombs, platforms);
@@ -143,15 +145,21 @@ function create() {
 
     
     this.physics.add.collider(stars, assets);
+    this.physics.add.overlap(player, bombs, hitBomb, null, this);
     function hitBomb(player, bomb) {
-        this.physics.pause();
-
-        player.setTint(0xff0000);
-
-        player.anims.play('turn');
-
-        gameOver = true;
+        bomb.disableBody(true, true);
+        lives += 2;
+        scoreText.setText('Lives: ' + lives);
+        document.getElementById('lives').innerText = lives;
+        if (lives == 0){
+            this.physics.pause();
+            player.setTint(0xff0000);
+            player.anims.play('turn');
+            gameOver = true;
+        }
+        
     }
+
     this.physics.add.overlap(player, stars, collectStar, null, this);
     function collectStar(player, star) {
         star.disableBody(true, true);
@@ -179,6 +187,7 @@ function create() {
     }
 
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+    scoreText = this.add.text(16, 16, 'lives: 3', { fontSize: '32px', fill: '#000' });
 
 
 
