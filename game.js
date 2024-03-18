@@ -18,9 +18,11 @@ var config = {
 };
 var score = 0;
 var scoreText;
+var livesText;
 var game = new Phaser.Game(config);
 var platforms;
 var assets;
+var lives = 3;
 var worldWidth = config.width * 2;
 function preload() {
     this.load.image('sky', 'assets/nebo.jpg');
@@ -31,7 +33,7 @@ function preload() {
     this.load.image('platform1', 'assets/1.png');
     this.load.image('platform2', 'assets/2.png');
     this.load.image('platform3', 'assets/3.png');
-
+    this.load.image('gameover', 'assets/gameover.png');
     this.load.image('snowman', 'assets/SnowMan.png');
     this.load.spritesheet('dude',
         'assets/dude.png',
@@ -40,7 +42,7 @@ function preload() {
 }
 
 function create() {
-    //this.add.image(950, 500, 'sky');
+    // границі камери + ствоерння фону
     this.tilesprite = this.add.tileSprite(950, 500, 1920, 1080, 'sky');
     this.cameras.main.setBounds(0, 0, 1850, 950);
 
@@ -51,41 +53,30 @@ function create() {
     this.directSpeed = 4.5;
 
     player = this.physics.add.sprite(100, 450, 'dude').setDepth(5);
-    //player.setVelocity(20, 10);
-    //player.setMaxSpeed(1000);
 
+    // скрипт камери
     this.cameras.main.startFollow(player, true);
-    //scoreText.startFollow(player, [false], [0], [0], [-300], [200])
-    // this.cameras.main.startFollow(this.ship, true, 0.09, 0.09);
+
 
     this.cameras.main.setZoom(1.5);
 
     platforms = this.physics.add.staticGroup();
-    //assets = this.physics.add.staticGroup();
 
 
 
 
+    // створення платформ
     platforms.create(800, 800, 'ground');//
     platforms.create(400, 650, 'ground'); //
     platforms.create(750, 500, 'ground');
     platforms.create(1450, 600, 'ground');
-    //for(var x = 0; x < 9600; x = x + phaser.math.Between(400, 500)){
-    //    var y = Phaser.math.FloatBetween(186, 93 * 7);
-    //    platforms.create(x,y, 'platform1');
-    //    var i;
-    //    for (i= 1; i < phaser.math.between(0,5); i++){
-    //        platforms.create(x + 128 * i, y, 'platform2');
-    //        }
-    //        platforms.create(x + 128 * i, y, "platform3");
-    //}
-
+    // створення асетів
     for (var x = 0; x < 9600; x = x + 400) {
         console.log(x)
         platforms.create(x, 920, 'ground').setOrigin(0, 0).refreshBody();
     }
 
-    //
+    
     for (var x = 0; x < 9600; x = x + 400) {
         console.log("snow x: " + x)
         snowman = this.physics.add.sprite(x, 920, 'snowman').setOrigin(0, 1).refreshBody().setScale(0.5, 0.5).setDepth(Phaser.Math.Between(1, 10));
@@ -100,6 +91,7 @@ function create() {
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
 
+    //анімації
     this.anims.create({
         key: 'left',
         frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
@@ -122,6 +114,7 @@ function create() {
     player.body.setGravityY(40)
     this.physics.add.collider(player, platforms);
     cursors = this.input.keyboard.createCursorKeys();
+    // створення зірок
     stars = this.physics.add.group({
         key: 'star',
         repeat: 25,
@@ -134,7 +127,7 @@ function create() {
 
     });
 
-    var lives;
+    
     bombs = this.physics.add.group();
 
     this.physics.add.collider(bombs, platforms);
@@ -146,21 +139,24 @@ function create() {
     
     this.physics.add.collider(stars, assets);
     this.physics.add.overlap(player, bombs, hitBomb, null, this);
+    // коли гравець торкаеться бомби
     function hitBomb(player, bomb) {
         bomb.disableBody(true, true);
-        lives += 2;
-        scoreText.setText('Lives: ' + lives);
+        lives -= 1;
+        livesText.setText('Lives: ' + lives);
         document.getElementById('lives').innerText = lives;
         if (lives == 0){
             this.physics.pause();
             player.setTint(0xff0000);
             player.anims.play('turn');
             gameOver = true;
+            
         }
         
     }
 
     this.physics.add.overlap(player, stars, collectStar, null, this);
+    // рахунок
     function collectStar(player, star) {
         star.disableBody(true, true);
 
@@ -187,13 +183,13 @@ function create() {
     }
 
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
-    scoreText = this.add.text(16, 16, 'lives: 3', { fontSize: '32px', fill: '#000' });
+    livesText = this.add.text(16, 16, 'lives: 3', { fontSize: '32px', fill: '#000' });
 
 
 
 
 
-
+// рух
 }
 
 function update() {
