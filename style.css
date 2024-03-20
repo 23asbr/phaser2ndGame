@@ -42,3 +42,15 @@ body {
     font-weight: 700;
     background-color: transparent;
 }
+
+#button{
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    font-size: 36px;
+    font-weight: 700;
+    background-color: red;
+    border-radius: 25px;
+    border-color: black;
+    border-width: 5px;
+}

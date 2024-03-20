@@ -7,13 +7,14 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 300 },
-            debug: true
+            debug: false
         }
     },
     scene: {
         preload: preload,
         create: create,
-        update: update
+        update: update,
+        reset: reset
     }
 };
 var score = 0;
@@ -41,11 +42,22 @@ function preload() {
     );
 }
 
+function reset() {
+    this.scene.start('preload');
+    lives += 3;
+    
+
+}
+
 function create() {
     // границі камери + ствоерння фону
     this.tilesprite = this.add.tileSprite(950, 500, 1920, 1080, 'sky');
     this.cameras.main.setBounds(0, 0, 1850, 950);
-
+    
+    this.reset = function() {
+            this.scene.restart();
+        }
+        document.getElementById('button').onclick = this.reset.bind(this);
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
