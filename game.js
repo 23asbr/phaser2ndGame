@@ -40,11 +40,14 @@ function preload() {
         'assets/dude.png',
         { frameWidth: 32, frameHeight: 50 }
     );
+    this.load.spritesheet('enemy',
+        'assets/enemy.png',
+        { frameWidth: 32, frameHeight: 50 }
+    );
 }
 
 function reset() {
     this.scene.start('preload');
-    lives += 3;
     
 
 }
@@ -55,7 +58,7 @@ function create() {
     this.cameras.main.setBounds(0, 0, 1850, 950);
     
     this.reset = function() {
-            this.scene.restart();
+            location.reload();
         }
         document.getElementById('button').onclick = this.reset.bind(this);
 
